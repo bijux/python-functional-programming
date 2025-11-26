@@ -1,0 +1,57 @@
+[build-system]
+requires = ["hatchling>=1.24"]
+build-backend = "hatchling.build"
+
+[project]
+name = "funcpipe-rag"
+version = "0.1.0"
+description = "FuncPipe RAG Builder (Module 1)"
+readme = "README.md"
+requires-python = ">=3.10,<4.0"
+license = { text = "MIT" }
+authors = [{ name = "Your Name", email = "your.email@example.com" }]
+classifiers = [
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+  "License :: OSI Approved :: MIT License",
+  "Topic :: Scientific/Engineering :: Information Analysis",
+]
+dependencies = []
+
+[project.optional-dependencies]
+dev = [
+  # testing
+  "pytest>=8.0.0",
+  "hypothesis>=6.0.0",
+  # lint/type-check
+  "ruff>=0.6.0",
+  "mypy>=1.10.0",
+  # build tool
+  "hatch>=1.15,<2",
+  # data stack
+  "pandas>=2.0,<3",
+  "kaggle>=1.6",
+]
+
+[tool.hatch.build]
+include = [
+  "src/funcpipe_rag/**",
+  "README.md",
+  "pyproject.toml",
+]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/funcpipe_rag"]
+include = ["src/funcpipe_rag/py.typed"]
+
+# Hatch env that installs the single 'dev' extra
+[tool.hatch.envs.dev]
+features = ["dev"]
+[tool.hatch.envs.dev.scripts]
+test = "pytest -q"
+cov = "pytest -q --cov=funcpipe_rag --cov-report=term-missing"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
