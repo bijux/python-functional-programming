@@ -1,9 +1,13 @@
-## FuncPipe RAG — end of Module 04
+## FuncPipe RAG — end of Module 05
 
-This repository contains the consolidated running project state at the end of **Module 04**:
+This repository contains the consolidated running project state at the end of **Module 05**:
 config-as-data, lazy pipelines, rules DSLs, taps/probes, streaming iteration utilities (Module 03),
 plus Module 04's tree-safe recursion (TreeDoc), Result/Option per-record failures, memoization,
 breakers/retries/resource safety, and structured error reports.
+
+Module 05 adds type-driven design utilities: ADTs, functors, applicative Validation, monoids,
+stable serialization contracts (Envelope + JSON/MessagePack + migrations), Pydantic v2 at the
+edges, compositional domain models, and a hybrid NumPy path with equivalence tests.
 
 Earlier module states are available via git tags and snapshots in `history/`.
 
@@ -15,6 +19,7 @@ RawDoc (CSV) -> CleanDoc -> ChunkWithoutEmbedding -> Chunk -> structural_dedup_c
       |          CleanConfig    gen_chunk_doc       embed_chunk
       |
   Reader/FSReader (boundary) -> full_rag_api_docs/full_rag_api_path -> JSONL (shell)
+  (see `funcpipe_rag.boundaries.shells`)
 
 # Module 03–04 streaming helpers (optional):
 # - stream_chunks / gen_bounded_chunks / safe_rag_pipeline
@@ -22,6 +27,10 @@ RawDoc (CSV) -> CleanDoc -> ChunkWithoutEmbedding -> Chunk -> structural_dedup_c
 # - TraceLens / RagTraceV3
 # - multicast / fork2_lockstep / samplers / peek
 # - Result streams: try_map_iter / breakers / retries / error reports
+
+# Module 05 type-driven core APIs:
+# - funcpipe_rag.fp (Module-05 type-driven toolkit: ADTs, functors, validation, monoids, domain, perf)
+# - funcpipe_rag.boundaries (serde + Pydantic-at-the-edges)
 ```
 
 ### Install

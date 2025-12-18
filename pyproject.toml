@@ -5,7 +5,7 @@ build-backend = "hatchling.build"
 [project]
 name = "funcpipe-rag"
 version = "0.1.0"
-description = "FuncPipe RAG Builder (end of Module 04)"
+description = "FuncPipe RAG Builder (end of Module 05)"
 readme = "README.md"
 requires-python = ">=3.10,<4.0"
 license = { text = "MIT" }
@@ -28,6 +28,11 @@ dev = [
   # lint/type-check
   "ruff>=0.6.0",
   "mypy>=1.10.0",
+  # module-05 deps (type-driven boundaries, serde, perf)
+  "typing-extensions>=4.9.0",
+  "pydantic>=2.7,<3",
+  "msgpack>=1.0,<2",
+  "numpy>=1.26,<3",
   # build tool
   "hatch>=1.15,<2",
   # data stack

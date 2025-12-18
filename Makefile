@@ -56,6 +56,7 @@ MODULES       := 01 02 03 04 05 06 07 08 09 10
 HISTORY_DIR   := history
 WORKTREES_DIR := $(HISTORY_DIR)/worktrees
 SNAPSHOTS_DIR := $(HISTORY_DIR)/snapshots
+FREEZE_OUT    ?= all-cores/funcpipe-rag-all-code.md
 
 # Export src + tests from each tag into history/snapshots/module-XX/
 snapshots:
@@ -201,7 +202,7 @@ module-funcpipe: snapshots
 
 freeze-codebase:
 	@set -e; \
-	out="all-cores/funcpipe-rag-all-code.md"; \
+	out="$(FREEZE_OUT)"; \
 	echo ">> $$out"; \
 	mkdir -p "$$(dirname "$$out")"; \
 	{ \
