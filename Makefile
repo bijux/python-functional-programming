@@ -131,69 +131,70 @@ module-md:
 	done
 
 
-# Concatenate each funcpipe-rag module codebase into all-cores/funcpipe-XX.md
-module-funcpipe:
+# Freeze each snapshot module (history/snapshots/module-XX) into all-cores/
+module-funcpipe: snapshots
 	@set -e; \
 	mkdir -p all-cores; \
-	for mod in module-[0-9][0-9]; do \
-		num="$${mod#module-}"; \
-		base="$$mod/funcpipe-rag-$$num"; \
+	for base in history/snapshots/module-[0-9][0-9]; do \
 		if [ -d "$$base" ]; then \
-			out="all-cores/funcpipe-$$num.md"; \
+			num="$${base##*/module-}"; \
+			out="all-cores/funcpipe-rag-all-code-module-$$num-snapshot.md"; \
 			echo ">> $$out"; \
 			{ \
-				echo "# funcpipe-rag module $$num"; \
+				echo "# funcpipe-rag snapshot module $$num"; \
 				echo; \
-				echo "## Tree"; \
+				echo "## Tree (src and tests)"; \
 				echo '```text'; \
 				if command -v tree >/dev/null 2>&1; then \
-					tree -a -I ".git|.venv|__pycache__|.tox|.idea|artifacts|data|dist|build|.pytest_cache|.mypy_cache|.ruff_cache|.hypothesis|*.egg-info" "$$base"; \
+					( cd "$$base" && tree -a -I ".git|.venv|__pycache__|.mypy_cache|.pytest_cache|.ruff_cache|.hypothesis|*.egg-info|.DS_Store" src tests 2>/dev/null || true ); \
 				else \
 					( cd "$$base" && \
-					  find . -type d \( \
-						-name .git -o -name .venv -o -name __pycache__ -o -name .tox -o \
-						-name .idea -o -name artifacts -o -name data -o -name dist -o -name build -o \
-						-name .pytest_cache -o -name .mypy_cache -o -name .ruff_cache -o -name .hypothesis -o \
-						-name "*.egg-info" \
-					  \) -prune -false -o -type f -print | sort ); \
+					  find src tests \
+						-type d \( -name "__pycache__" -o -name ".mypy_cache" -o -name ".pytest_cache" -o -name ".ruff_cache" -o -name ".hypothesis" \) -prune -o \
+						-type f ! -name ".DS_Store" ! -name "*.pyc" -print 2>/dev/null | sort || true ); \
 				fi; \
 				echo '```'; \
 				echo; \
-				echo "## Files"; \
-				echo; \
-				( cd "$$base" && \
-				  find . -type d \( \
-					-name .git -o -name .venv -o -name __pycache__ -o -name .tox -o \
-					-name .idea -o -name artifacts -o -name data -o -name dist -o -name build -o \
-					-name .pytest_cache -o -name .mypy_cache -o -name .ruff_cache -o -name .hypothesis -o \
-					-name "*.egg-info" \
-				  \) -prune -false -o \
-				  -type f \( \
-					-name 'Makefile' -o \
-					-name '*.py' -o -name '*.ini' -o -name '*.md' -o \
-					-name '*.toml' -o -name '*.txt' -o -name '*.sh' -o \
-					-name '*.yml' -o -name '*.yaml' \
-				  \) -print | sort | \
-				  while IFS= read -r f; do \
-					ext="$${f##*.}"; lang="text"; \
-					case "$$ext" in \
-						py) lang="python" ;; \
-						sh) lang="bash" ;; \
-						yml|yaml) lang="yaml" ;; \
-						toml) lang="toml" ;; \
-						md) lang="markdown" ;; \
-						ini) lang="ini" ;; \
-						Makefile) lang="make" ;; \
-					esac; \
-					echo "### $$f"; \
-					echo '```'$$lang; \
-					cat "$$f"; \
+				if [ -f "$$base/README.md" ]; then \
+					echo "## README.md"; \
+					echo '```markdown'; \
+					cat "$$base/README.md"; \
 					echo '```'; \
 					echo; \
-				  done ); \
+				fi; \
+				if [ -f "$$base/pyproject.toml" ]; then \
+					echo "## pyproject.toml"; \
+					echo '```toml'; \
+					cat "$$base/pyproject.toml"; \
+					echo '```'; \
+					echo; \
+				fi; \
+				for dir in src tests; do \
+					if [ -d "$$base/$$dir" ]; then \
+						( cd "$$base" && \
+						  find "$$dir" \
+							-type d \( -name "__pycache__" -o -name ".mypy_cache" -o -name ".pytest_cache" -o -name ".ruff_cache" -o -name ".hypothesis" \) -prune -o \
+							-type f ! -name "*.pyc" ! -name ".DS_Store" -print | sort | \
+						  while IFS= read -r f; do \
+							ext="$${f##*.}"; lang="text"; \
+							case "$$ext" in \
+								py)   lang="python" ;; \
+								md)   lang="markdown" ;; \
+								toml) lang="toml" ;; \
+								sh)   lang="bash" ;; \
+								yml|yaml) lang="yaml" ;; \
+							esac; \
+							echo "## $$f"; \
+							echo '```'$$lang; \
+							cat "$$f"; \
+							echo '```'; \
+							echo; \
+						  done ); \
+					fi; \
+				done; \
 			} > "$$out"; \
 		else \
-			echo "!! Skipping $$mod (no $$base)"; \
+			echo "!! Skipping $$base (not a dir)"; \
 		fi; \
 	done
 
