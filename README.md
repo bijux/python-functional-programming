@@ -1,6 +1,6 @@
-## FuncPipe RAG — end of Module 06
+## FuncPipe RAG — end of Module 07
 
-This repository contains the consolidated running project state at the end of **Module 06**:
+This repository contains the consolidated running project state at the end of **Module 07**:
 config-as-data, lazy pipelines, rules DSLs, taps/probes, streaming iteration utilities (Module 03),
 plus Module 04's tree-safe recursion (TreeDoc), Result/Option per-record failures, memoization,
 breakers/retries/resource safety, and structured error reports.
@@ -11,6 +11,10 @@ edges, compositional domain models, and a hybrid NumPy path with equivalence tes
 
 Module 06 adds monadic helpers (Reader/State/Writer), container-layer transposition helpers,
 runtime-configurable pipelines, and explicit exception-to-Result bridging for boundaries.
+
+Module 07 adds a small production architecture layer: ports/capability protocols, a deferred IO
+description (`IOPlan`) with a single shell interpreter (`perform`), structured logs as pure data
+(Writer + `LogEntry`), idempotent effect design, and explicit Session/Tx bracketing.
 
 Earlier module states are available via git tags and snapshots in `history/`.
 
@@ -38,6 +42,11 @@ RawDoc (CSV) -> CleanDoc -> ChunkWithoutEmbedding -> Chunk -> structural_dedup_c
 # Module 06 effects (optional):
 # - funcpipe_rag.fp.effects (Reader/State/Writer + layering + configurable pipelines)
 # - funcpipe_rag.boundaries.adapters (serde + Pydantic edges + exception bridge)
+
+# Module 07 production architecture layer (optional):
+# - funcpipe_rag.domain (capabilities + structured logs + idempotency helpers)
+# - funcpipe_rag.domain.effects (IOPlan + IOPlan-specific retry/tx helpers)
+# - funcpipe_rag.infra.adapters (filesystem/memory storage, clocks, loggers, atomic write-if-absent)
 ```
 
 ### Install
