@@ -1,6 +1,6 @@
-## FuncPipe RAG — end of Module 07
+## FuncPipe RAG — end of Module 08
 
-This repository contains the consolidated running project state at the end of **Module 07**:
+This repository contains the consolidated running project state at the end of **Module 08**:
 config-as-data, lazy pipelines, rules DSLs, taps/probes, streaming iteration utilities (Module 03),
 plus Module 04's tree-safe recursion (TreeDoc), Result/Option per-record failures, memoization,
 breakers/retries/resource safety, and structured error reports.
@@ -15,6 +15,11 @@ runtime-configurable pipelines, and explicit exception-to-Result bridging for bo
 Module 07 adds a small production architecture layer: ports/capability protocols, a deferred IO
 description (`IOPlan`) with a single shell interpreter (`perform`), structured logs as pure data
 (Writer + `LogEntry`), idempotent effect design, and explicit Session/Tx bracketing.
+
+Module 08 adds a production-grade async/concurrency layer as pure descriptions:
+`AsyncPlan`/`AsyncGen`, bounded concurrency + backpressure, retry/timeout policies as data with
+deterministic fake-time testing hooks, rate limiting + weighted fairness, and time/size-based
+async stream chunking — while keeping the synchronous core untouched via lift helpers.
 
 Earlier module states are available via git tags and snapshots in `history/`.
 
