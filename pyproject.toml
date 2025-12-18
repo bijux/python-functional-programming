@@ -5,7 +5,7 @@ build-backend = "hatchling.build"
 [project]
 name = "funcpipe-rag"
 version = "0.1.0"
-description = "FuncPipe RAG Builder (end of Module 03)"
+description = "FuncPipe RAG Builder (end of Module 04)"
 readme = "README.md"
 requires-python = ">=3.10,<4.0"
 license = { text = "MIT" }
