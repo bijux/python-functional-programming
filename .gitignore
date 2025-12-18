@@ -181,3 +181,8 @@ data/
 all-cores/
 TODO
 zfix/
+
+.benchmarks
+.hypothesis
+data
+history
