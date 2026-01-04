@@ -5,7 +5,7 @@ build-backend = "hatchling.build"
 [project]
 name = "funcpipe-rag"
 version = "0.1.0"
-description = "FuncPipe RAG Builder (end of Module 08)"
+description = "FuncPipe RAG Builder (end of Module 09)"
 readme = "README.md"
 requires-python = ">=3.10,<4.0"
 license = { text = "MIT" }
@@ -20,7 +20,15 @@ classifiers = [
 ]
 dependencies = []
 
+[project.scripts]
+funcpipe-rag = "funcpipe_rag.boundaries.shells.cli:main"
+
 [project.optional-dependencies]
+docs = [
+  "mkdocs>=1.6,<2",
+  "mkdocs-material>=9.5,<10",
+  "pymdown-extensions>=10.8,<11",
+]
 dev = [
   # testing
   "pytest>=8.0.0",
@@ -38,6 +46,13 @@ dev = [
   # data stack
   "pandas>=2.0,<3",
   "kaggle>=1.6",
+  # MkDocs site (Material theme + common plugins)
+  "mkdocs>=1.6,<2",
+  "mkdocs-material>=9.5,<10",
+  "pymdown-extensions>=10.8,<11",
+  "mkdocs-git-revision-date-localized-plugin>=1.2,<2",
+  "mkdocs-minify-plugin>=0.8,<1",
+  "mkdocs-redirects>=1.2,<2",
 ]
 
 [tool.hatch.build]
@@ -57,6 +72,12 @@ features = ["dev"]
 [tool.hatch.envs.dev.scripts]
 test = "pytest -q"
 cov = "pytest -q --cov=funcpipe_rag --cov-report=term-missing"
+
+[tool.hatch.envs.docs]
+features = ["docs"]
+[tool.hatch.envs.docs.scripts]
+serve = "mkdocs serve"
+build = "mkdocs build --strict"
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

@@ -2,7 +2,8 @@
 
 # ===== Basics =====
 .PHONY: install test build lint clean clean-all venv \
-        worktrees snapshots clean-history module-md module-funcpipe freeze-codebase
+        worktrees snapshots clean-history module-md module-funcpipe freeze-codebase \
+        docs docs-deps docs-serve docs-build
 
 .DEFAULT_GOAL := install
 
@@ -14,6 +15,7 @@ RUFF       := $(VENV)/bin/ruff
 MYPY       := $(VENV)/bin/mypy
 PYTEST     := $(VENV)/bin/pytest
 HATCH      := $(VENV)/bin/hatch
+MKDOCS     := $(VENV)/bin/mkdocs
 
 $(VENV_PY):
 	$(PYTHON) -m venv $(VENV)
@@ -34,9 +36,20 @@ lint: venv
 	$(RUFF) check src tests
 	$(MYPY) --strict src/funcpipe_rag
 
+docs-deps: venv
+	$(VENV_PIP) install -e '.[docs]'
+
+docs: docs-build
+
+docs-build: docs-deps
+	$(MKDOCS) build --strict
+
+docs-serve: docs-deps
+	$(MKDOCS) serve
+
 clean:
 	rm -rf dist build *.egg-info \
-		.pytest_cache .mypy_cache .ruff_cache .hypothesis \
+		.pytest_cache .mypy_cache .ruff_cache .hypothesis .benchmarks \
 		$(VENV)
 
 clean-all: clean
@@ -109,7 +122,7 @@ module-md:
 	parent_dir="."; \
 	out_dir="$$parent_dir/all-cores"; \
 	mkdir -p "$$out_dir"; \
-	for mod in "$$parent_dir"/module-[0-9][0-9]; do \
+	for mod in "$$parent_dir"/course-book/module-[0-9][0-9]; do \
 		if [ ! -d "$$mod" ]; then \
 			continue; \
 		fi; \
