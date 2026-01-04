@@ -1,7 +1,10 @@
-# Python Functional Programming: Course Book
+# Python Functional Programming — Correctness-First Course & FuncPipe RAG Build
 
+[![License](https://img.shields.io/github/license/bijux/python-functional-programming?style=flat-square)](https://github.com/bijux/python-functional-programming/blob/main/LICENSE)
+[![Docs](https://img.shields.io/badge/docs-live-blue?style=flat-square)](https://bijux.github.io/python-functional-programming/)
+[![Python](https://img.shields.io/badge/python-3.11%2B-blue?style=flat-square)](https://www.python.org/)
 
-**A production-minded deep dive into functional programming in Python**, grounded in a real running project (FuncPipe RAG). 
+**A production-minded deep dive into functional programming in Python**, grounded in a real running project (FuncPipe RAG).
 
 - **Live docs:** https://bijux.github.io/python-functional-programming/  
 - **Author hub:** https://bijux.github.io/
